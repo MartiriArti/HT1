@@ -4,12 +4,22 @@ public class ContactItem {
 
     String name, email;
     String phone, adress;
+    int image;
 
-    public ContactItem(String name, String email, String phone, String adress) {
+    public ContactItem(String name, String email, String phone, String adress, int image) {
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.adress = adress;
+        this.image = image;
+    }
+
+    public int getImage() {
+        return image;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
     }
 
     public String getName() {

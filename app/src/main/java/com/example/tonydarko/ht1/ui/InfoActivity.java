@@ -37,7 +37,7 @@ public class InfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_info);
         unbinder = ButterKnife.bind(this);
 
-        int position = getIntent().getExtras().getInt("Position",0);
+        final int position = getIntent().getExtras().getInt("Position",0);
 
         name.setText(Generator.contactItems.get(position).getName());
         adress.setText(Generator.contactItems.get(position).getAdress());

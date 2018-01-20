@@ -1,10 +1,10 @@
 package com.example.tonydarko.ht1.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,45 +12,77 @@ import com.example.tonydarko.ht1.R;
 import com.example.tonydarko.ht1.items.ContactItem;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class ContactsAdapter extends BaseAdapter {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
+public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder> {
+
+    ArrayList<ContactItem> items;
     Context context;
-    ArrayList<ContactItem> list;
+    OnItemClick onItemClick;
 
-    public ContactsAdapter(Context context, ArrayList<ContactItem> list) {
+    public ContactsAdapter(ArrayList<ContactItem> items, Context context) {
+        this.items = items;
         this.context = context;
-        this.list = list;
     }
 
     @Override
-    public int getCount() {
-        return list.size();
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View item = LayoutInflater.from(context)
+                .inflate(R.layout.item, parent, false);
+        return new ViewHolder(item);
+    }
+
+    public void setOnItemClick(OnItemClick onItemClick) {
+        this.onItemClick = onItemClick;
     }
 
     @Override
-    public Object getItem(int position) {
-        return list.get(position);
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        holder.bind(items.get(position));
+    }
+
+   public interface OnItemClick {
+        void onItemClick(int position);
     }
 
     @Override
-    public long getItemId(int position) {
-        return list.get(position).hashCode();
+    public int getItemCount() {
+        return items.size();
     }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View root = LayoutInflater.from(context).inflate(R.layout.item, parent, false);
+    class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.tv_name)
+        TextView name;
+        @BindView(R.id.tv_email)
+        TextView email;
+        @BindView(R.id.image_view)
+        ImageView image;
+        @BindView(R.id.card)
+        View root;
 
-        TextView name = root.findViewById(R.id.tv_name);
-        TextView email = root.findViewById(R.id.tv_email);
-        ImageView image = root.findViewById(R.id.image_view);
+        public ViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
 
-        name.setText(list.get(position).getName());
-        email.setText(list.get(position).getEmail());
-        image.setImageResource(R.mipmap.ic_launcher);
+        public void bind(ContactItem item) {
+            name.setText(item.getName());
+            email.setText(item.getEmail());
+            image.setImageResource(item.getImage());
+        }
 
-        return root;
+
+        @OnClick(R.id.card)
+        void onItemClick() {
+            if (onItemClick != null) {
+                onItemClick.onItemClick(getAdapterPosition());
+            }
+
+        }
+
     }
+
 }

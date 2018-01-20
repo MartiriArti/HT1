@@ -1,6 +1,7 @@
 package com.example.tonydarko.ht1.utils;
 
 
+import com.example.tonydarko.ht1.R;
 import com.example.tonydarko.ht1.items.ContactItem;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class Generator {
             contactItems.add(new ContactItem("Name " + i,
                     " Email " + i,
                     "+38099456456" + i,
-                    "City " + i));
+                    "City " + i, R.mipmap.ic_launcher));
         }
         return contactItems;
     }
